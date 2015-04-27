@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+    <body>
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+        <script src="https://raw.githubusercontent.com/stuartmemo/theresas-sound-world/master/dist/tsw.min.js"></script>
+	<script src="jquery-2.1.3.min.js"></script>
+	<script src="timeWorker.js"></script>
+	<style>
+		body{
+			background:#7FA1E5;
+			font-family: 'Open Sans', sans-serif;
+			font-size:24px;
+		}
+		body header{
+			padding-left:25px;
+			padding-right:25px;
+			padding-top:3px;
+			text-align: justify;
+		}	
+		#formulario{
+			background:#D2DFFA;
+			width:700px;
+			height:600px;
+			margin-left:auto;
+			margin-right:auto;
+			margin-top:100px;
+		}
+		#play_button{
+			height:40px; 
+			width:100px; 
+			margin: -20px -50px; 
+			position:relative;
+			top:35%; 
+			left:50%;
+		}
+		#respuesta{
+			height:100px; 
+			width:100%; 
+			margin-left:auto;
+			margin-right:auto;
+			text-align:center;
+			margin-top:200px;
+
+		}
+		#formulario #div_title{
+			background:white;
+			padding-left:5px;
+		}
+		#big_number{
+			font-size:155px;
+			text-align: center;
+		}
+		#awn_anagram{
+			width:90%;
+			margin-left:auto;
+			margin-right:auto;
+			display:block;
+			height:100px;
+		}
+	</style>
+
+	<div id="formulario">
+     <div id='div_title'> Prueba 1/20</div>	</br>
+	<div id='big_number'> AMOR </div> 	</br>
+	Tus respuestas:
+	</br>
+	</br>
+	</br>
+	<textarea id="awn_anagram"></textarea>
+	<span id="time"></span>
+	</div>
+
+
+        <script>
+		function getUnixTime(){
+			return Date.now();
+		}
+		var _startTime;
+		function onTimeOver(){
+			var awns = "";
+			awns = $("#awn_anagram").val();
+			saveData(getSubjectName(),_startTime,getUnixTime(),"1",awns);
+		}
+		function startWorker(){
+			if(typeof(w) == "undefined") {
+				_startTime = getUnixTime();
+				w = new Worker("timerWorker.js");
+				
+				w.onmessage = function(event){
+					document.getElementById("time").innerHTML = "Tiempo restante: " + event.data + " segundos";
+					if(event.data == "0"){
+						w.terminate();
+						onTimeOver();
+					}
+				}; 
+			}
+		}
+		startWorker();
+		function getSubjectName(){
+			var _subject = document.cookie;
+			_subject = _subject.replace("subject=",""); //TODO:There has to be a better way to do this
+			return _subject;
+		}
+		function saveData(subject,st,et,question_number,awn){
+			var _data = {"subject":subject, "start_time": st, "end_time": et, "question_number": question_number,
+		       				"awn":awn};
+			$.ajax({ 
+				url:"http://127.0.0.1:5000/data",
+				type: "POST",
+				data: _data,
+				success: function(data, textStatus, jqXHR)
+				{
+					console.log(data);
+                      window.location.href = '2.html';				},
+				always: function(data,textStatus,jqXHR){
+				
+				}	
+			});
+
+
+		}
+		function getTime(){
+			var d = new Date();
+			var _year = d.getYear() + 1900;
+			var _month = d.getMonth() + 1 ;
+			var _day = d.getDate();
+			var _hours = d.getHours();
+			var _minutes = d.getMinutes();
+			var _seconds = d.getSeconds();
+			var _miliseconds = d.getMilliseconds();
+			return _year + "-" + _month +"-"+ _day + " " + _hours + ":" + _minutes + ":"+_seconds + "." + _miliseconds;
+		};
+        </script>
+    </body>
+</html>

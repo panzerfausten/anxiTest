@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+</head>
+    <body>
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+        <script src="https://raw.githubusercontent.com/stuartmemo/theresas-sound-world/master/dist/tsw.min.js"></script>
+	<script src="jquery-2.1.3.min.js"></script>
+	<style>
+		body{
+			background:#7FA1E5;
+			font-family: 'Open Sans', sans-serif;
+			font-size:24px;
+		}
+		body header{
+			padding-left:25px;
+			padding-right:25px;
+			padding-top:5px;
+			text-align: justify;
+		}	
+		#formulario{
+			background:#D2DFFA;
+			width:700px;
+			height:600px;
+			margin-left:auto;
+			margin-right:auto;
+			margin-top:100px;
+		}
+		#ready_button{
+			height:40px; 
+			width:100px; 
+			margin: -20px -50px; 
+			position:relative;
+			top:35%; 
+			left:50%;
+		}
+		#respuesta{
+			height:100px; 
+			width:100%; 
+			margin-left:auto;
+			margin-right:auto;
+			text-align:center;
+			margin-top:200px;
+
+		}
+		#formulario #div_title{
+			background:white;
+			padding-left:5px;
+		}
+		#big_number{
+		}
+	</style>
+
+	<div id="formulario">
+	<div id="div_title">Pruebas de sonido</div>
+	</br>
+		<span>Subject:</span> <input type="text" id="subject_name"/>
+	</br>
+		<button id="ready_button">Ok</button>
+	</div>
+
+
+        <script>
+	$("#ready_button").click(function (){
+		var newSubject = "";
+		newSubject= $("#subject_name").val();
+		setCookie(newSubject);
+		alert("Settings saved");
+	});
+	readCookie();
+
+	function setCookie(subject){
+		document.cookie="subject="+subject;
+	}
+	function readCookie(){
+		var subject = document.cookie;
+		subject = subject.replace("subject=","");
+		$("#subject_name").val( subject);
+	
+}
+        </script>
+    </body>
+</html>
