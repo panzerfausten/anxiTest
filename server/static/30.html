@@ -65,8 +65,8 @@
 	</style>
 
 	<div id="formulario">
-     <div id='div_title'> Prueba 1/30</div>	</br>
-	<div id='big_number'>AMOR</div> 	</br>
+     <div id='div_title'> Prueba 30/30</div>	</br>
+	<div id='big_number'>OCARINAS</div> 	</br>
 	Tus respuestas:
 	</br>
 	</br>
@@ -85,7 +85,7 @@
 		function onTimeOver(){
 			var awns = "";
 			awns = $("#awn_anagram").val();
-			saveData(getSubjectName(),_startTime,getUnixTime(),'1',awns);
+			saveData(getSubjectName(),_startTime,getUnixTime(),'30',awns);
 		}
 		function startWorker(){
 			if(typeof(w) == "undefined") {
@@ -121,7 +121,7 @@
 				success: function(data, textStatus, jqXHR)
 				{
 					console.log(data);
-                      window.location.href = '2.html';				},
+                      window.location.href = 'end.html';				},
 				always: function(data,textStatus,jqXHR){
 				
 				}	

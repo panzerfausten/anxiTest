@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+    <body>
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+        <script src="https://raw.githubusercontent.com/stuartmemo/theresas-sound-world/master/dist/tsw.min.js"></script>
+	<script src="jquery-2.1.3.min.js"></script>
+	<style>
+		body{
+			background:#7FA1E5;
+			font-family: 'Open Sans', sans-serif;
+			font-size:24px;
+		}
+		body header{
+			padding-left:25px;
+			padding-right:25px;
+			padding-top:3px;
+			text-align: justify;
+		}	
+		#formulario{
+			background:#D2DFFA;
+			width:700px;
+			height:600px;
+			margin-left:auto;
+			margin-right:auto;
+			margin-top:100px;
+		}
+		#ready_button{
+			height:40px; 
+			width:100px; 
+			margin: -20px -50px; 
+			position:relative;
+			top:30%; 
+			left:50%;
+		}
+		#respuesta{
+			height:100px; 
+			width:100%; 
+			margin-left:auto;
+			margin-right:auto;
+			text-align:center;
+			margin-top:200px;
+
+		}
+		#formulario #div_title{
+			background:white;
+			padding-left:5px;
+		}
+		#big_number{
+			font-size:155px;
+			text-align: center;
+		}
+		#slider{
+			height:500px;
+			float:right;
+		}
+		#lbl_textlevel{
+			text-align:center;
+		}		
+	</style>
+
+	<div id="formulario">
+     	<div id='div_title'> Utiliza la barra de la derecha para indicar tu nivel de ansiedad</div>	</br>
+	<input id="slider" type="range"  min="0" max="100" step="10" oninput="showValue(this.value)"orient="vertical" value="0"/>
+	<div id='big_number'>0</div> 	</br>
+	<div id="lbl_textlevel">&nbsp;</div>
+	<button id='ready_button'>Listo</button>
+	<div id="range-value"></div>
+	</div>
+
+	<script>
+        function getUnixTime(){
+        	return Date.now();
+        }
+	var _startTime = getUnixTime();
+	document.getElementById("slider").value = 0;
+	function readCookie(){
+		alert(document.cookie);
+	}
+	function setCookie(){
+		document.cookie="subject=S1";
+	}
+	//setCookie();
+	//readCookie();
+	$("#ready_button").click(function(){
+		var _sudsValue = $("#slider").val()
+		saveData(getSubjectName(),_startTime,getUnixTime(),"SUDS_1",_sudsValue);
+	});
+	function getSubjectName(){
+		var _subject = document.cookie;
+		_subject = _subject.replace("subject=",""); //TODO:There has to be a better way to do this
+		return _subject;
+	}
+
+	function showValue(newValue)
+	{
+		var s = "Totalmente relajado";
+		switch(newValue){
+			case "0":
+				s = "Totalmente relajado";
+			break;
+			case "10":
+				s = "Alerta y despierto, me concentre bien";
+			break;
+			case "20":
+			s = "Ansiedad minima";
+			break;
+			case "30":
+				s = "Ansiedad leve, no interfirio en mi rendimiento";
+			break;
+			case "40":
+				s = "&nbsp;"
+			break;
+			case "50":
+				s = "La ansiedad mas grande que he sentido en mi vida";
+			break;
+			case "60":
+				s = "&nbsp;";
+			break;
+			case "70":
+				s= "Bastante ansioso. Interfirio con mi rendimiento";
+			break;
+			case "80":
+				s= "Muy ansioso, no me pude concentrar";
+			break;
+			case "90":
+				s = "Extremadamente ansioso";
+			break;
+			case "100":
+				s= "La ansiedad mas grande que he sentido en mi vida";
+			break;
+		}
+		document.getElementById("lbl_textlevel").innerHTML=s;
+		document.getElementById("big_number").innerHTML=newValue;
+	}
+	</script>
+
+        <script>
+		function saveData(subject,st,et,question_number,awn){
+			var _data = {"subject":subject, "start_time": st, "end_time": et, "question_number": question_number,
+		       				"awn":awn};
+
+			$.ajax({ 
+				url:"http://127.0.0.1:5000/data",
+				type: "POST",
+				data: _data,
+				success: function(data, textStatus, jqXHR)
+				{
+					console.log(data);
+                      window.location.href = 'end.html';				},
+				always: function(data,textStatus,jqXHR){
+				
+				}	
+			});
+
+
+		}
+
+        </script>
+    </body>
+</html>
