@@ -1,5 +1,5 @@
 var i = 0;
-var max_time = 35; //secs
+var max_time = 60; //secs
 function timedCount() {
     i = i + 1;
     postMessage(max_time - i);
