@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+</head>
+    <body>
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+        <script src="https://raw.githubusercontent.com/stuartmemo/theresas-sound-world/master/dist/tsw.min.js"></script>
+	<script src="jquery-2.1.3.min.js"></script>
+	<style>
+		body{
+			background:#7FA1E5;
+			font-family: 'Open Sans', sans-serif;
+			font-size:24px;
+		}
+		body header{
+			padding-left:25px;
+			padding-right:25px;
+			padding-top:5px;
+			text-align: justify;
+		}	
+		#formulario{
+			background:#D2DFFA;
+			width:700px;
+			height:600px;
+			margin-left:auto;
+			margin-right:auto;
+			margin-top:100px;
+		}
+		#play_button{
+			height:40px; 
+			width:100px; 
+			margin: -20px -50px; 
+			position:relative;
+			top:35%; 
+			left:50%;
+		}
+		#respuesta{
+			height:100px; 
+			width:100%; 
+			margin-left:auto;
+			margin-right:auto;
+			text-align:center;
+			margin-top:200px;
+
+		}
+		#formulario #div_title{
+			background:white;
+			padding-left:5px;
+		}
+		#big_number{
+		}
+	</style>
+
+	<div id="formulario">
+	<div id="div_title">Anagramas</div>
+	</br>
+	<header> A continuación, se te presentaran 30 palabras. Con cada palabra debes de escribir <strong>todos los anagramas posibles</strong></header>
+	</br>
+<header><strong>Todas </strong> las palabras tienen anagramas y solo contaran como anagramas las palabras que tengan sentido.</header>
+		<button id="play_button" onclick="window.location='1.html'">Empezar</button>
+	</div>
+
+
+        <script>
+
+		var _INIT_TIME;
+		function keyNoteToFreq(note){
+			n = (note - 49 )/12;
+			return Math.pow(2,n) * 440;
+		}
+		console.log ( keyNoteToFreq(49));
+		$("#respuesta").hide();	
+		function play_sounds(sound_a,sound_b, sound_c){
+			_INIT_TIME = getTime();
+			$("#play_button").hide(100);
+		var osc = tsw.osc(sound_a, 'sawoff'),
+		volume = tsw.gain(0.11); // Half volume.
+		tsw.connect(osc, volume, tsw.speakers);
+		//osc.frequency(sound_a);
+		osc.start() ;
+		setTimeout(function (){
+			osc.frequency(0);
+		},1000);
+
+		setTimeout(function (){
+			//osc.stop();
+
+			osc.frequency(sound_b);
+		},1500);
+
+		setTimeout(function (){
+			osc.frequency(0);
+		},2500);
+		setTimeout(function (){
+			osc.frequency(sound_c);
+		},3000);
+	
+
+		setTimeout(function (){
+			osc.stop();
+			$("#respuesta").show(300);
+		},4000);
+};
+		//respuestas
+		$(".awn_button").click(function (){
+			var _END_TIME = getTime();
+			console.log(_INIT_TIME);
+			console.log(_END_TIME);
+
+** 			window.location = "2.html";
+		});
+
+		function getTime(){
+			var d = new Date();
+			var _year = d.getYear() + 1900;
+			var _month = d.getMonth() + 1 ;
+			var _day = d.getDate();
+			var _hours = d.getHours();
+			var _minutes = d.getMinutes();
+			var _seconds = d.getSeconds();
+			var _miliseconds = d.getMilliseconds();
+			return _year + "-" + _month +"-"+ _day + " " + _hours + ":" + _minutes + ":"+_seconds + "." + _miliseconds;
+		};
+        </script>
+    </body>
+</html>

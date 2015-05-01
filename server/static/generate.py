@@ -11,7 +11,7 @@ with open('patron.html','r') as _patron:
 			elif(_i + 1 == 20):
 				_r = _r.replace("window.location.href = '2.html'","window.location.href = 'suds2.html'")
 			elif(_i + 1 == 30):
-				_r = _r.replace("window.location.href = '2.html'","window.location.href = 'end.html'")
+				_r = _r.replace("window.location.href = '2.html'","window.location.href = 'suds3.html'")
 			else:
 				_r = _r.replace("window.location.href = '2.html'","window.location.href = '%i.html'" %(_i+2))
 			_r = _r.replace("saveData(getSubjectName(),_startTime,getUnixTime(),'1',awns)","saveData(getSubjectName(),_startTime,getUnixTime(),'%i',awns)" %(_i+1))

@@ -103,11 +103,22 @@
 					if(_secondsLeft == 0 ){
 						w.terminate();
 						onTimeOver();
-					}else if (_secondsLeft < 15){
+					}else if (_secondsLeft == 15){
 						$("#time").css('color','red');
+						startTicking();
 					}
 				}; 
 			}
+		}
+		function startTicking(){
+			myAudio = new Audio('ticktick_1sec.mp3'); 
+			myAudio.addEventListener('ended', function() {
+			    this.currentTime = 0;
+			    this.play();
+			}, false);
+			myAudio.play();
+			console.log("tick");
+
 		}
 		startWorker();
 		function getSubjectName(){

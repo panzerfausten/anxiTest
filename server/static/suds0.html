@@ -84,7 +84,7 @@
 	//readCookie();
 	$("#ready_button").click(function(){
 		var _sudsValue = $("#slider").val()
-		saveData(getSubjectName(),_startTime,getUnixTime(),"SUDS_1",_sudsValue);
+		saveData(getSubjectName(),_startTime,getUnixTime(),"SUDS_0",_sudsValue);
 	});
 	function getSubjectName(){
 		var _subject = document.cookie;
@@ -112,7 +112,7 @@
 				s = "&nbsp;"
 			break;
 			case "50":
-				s = "Ansiedad moderada, me senti incomodo(a) pero pude realizar la prueba"
+				s = "Ansiedad moderada, me senti incomodo(a) pero pude realizar la prueba";
 			break;
 			case "60":
 				s = "&nbsp;";
@@ -147,7 +147,7 @@
 				success: function(data, textStatus, jqXHR)
 				{
 					console.log(data);
-                      window.location.href = 'relax2.html';				},
+ 		                window.location.href = '1.html';				},
 				always: function(data,textStatus,jqXHR){
 				
 				}	

@@ -5,6 +5,8 @@
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
         <script src="https://raw.githubusercontent.com/stuartmemo/theresas-sound-world/master/dist/tsw.min.js"></script>
 	<script src="jquery-2.1.3.min.js"></script>
+        <script src="relaxWorker.js"></script>
+
 	<style>
 		body{
 			background:#7FA1E5;
@@ -60,11 +62,11 @@
 	</style>
 
 	<div id="formulario">
-     	<div id='div_title'> Utiliza la barra de la derecha para indicar tu nivel de ansiedad</div>	</br>
-	<input id="slider" type="range"  min="0" max="100" step="10" oninput="showValue(this.value)"orient="vertical" value="0"/>
+     	<div id='div_title'> Descansa</div>	</br>
+	Relajemonos un momento..
 	<div id='big_number'>0</div> 	</br>
+	Mantente quieto y relajado.
 	<div id="lbl_textlevel">&nbsp;</div>
-	<button id='ready_button'>Listo</button>
 	<div id="range-value"></div>
 	</div>
 
@@ -73,7 +75,6 @@
         	return Date.now();
         }
 	var _startTime = getUnixTime();
-	document.getElementById("slider").value = 0;
 	function readCookie(){
 		alert(document.cookie);
 	}
@@ -92,50 +93,30 @@
 		return _subject;
 	}
 
-	function showValue(newValue)
-	{
-		var s = "Totalmente relajado";
-		switch(newValue){
-			case "0":
-				s = "Totalmente relajado";
-			break;
-			case "10":
-				s = "Alerta y despierto, me concentre bien";
-			break;
-			case "20":
-			s = "Ansiedad minima";
-			break;
-			case "30":
-				s = "Ansiedad leve, no interfirio en mi rendimiento";
-			break;
-			case "40":
-				s = "&nbsp;"
-			break;
-			case "50":
-				s = "Ansiedad moderada, me senti incomodo(a) pero pude realizar la prueba"
-			break;
-			case "60":
-				s = "&nbsp;";
-			break;
-			case "70":
-				s= "Bastante ansioso. Interfirio con mi rendimiento";
-			break;
-			case "80":
-				s= "Muy ansioso, no me pude concentrar";
-			break;
-			case "90":
-				s = "Extremadamente ansioso";
-			break;
-			case "100":
-				s= "La ansiedad mas grande que he sentido en mi vida";
-			break;
-		}
-		document.getElementById("lbl_textlevel").innerHTML=s;
-		document.getElementById("big_number").innerHTML=newValue;
-	}
+	
 	</script>
 
         <script>
+		function onTimeOver(){
+ 			window.location.href = '11.html';				
+		}
+                function startWorker(){
+                        if(typeof(w) == "undefined") {
+                                _startTime = getUnixTime();
+                                w = new Worker("relaxWorker.js");
+                                w.onmessage = function(event){
+                                        
+                                        document.getElementById("big_number").innerHTML = event.data ;
+                                        var _secondsLeft = parseInt(event.data)
+                                        if(_secondsLeft == 0 ){
+                                                w.terminate();
+                                                onTimeOver();
+                                        } 
+                               }; 
+                        }
+                }
+                startWorker();
+
 		function saveData(subject,st,et,question_number,awn){
 			var _data = {"subject":subject, "start_time": st, "end_time": et, "question_number": question_number,
 		       				"awn":awn};
@@ -147,7 +128,7 @@
 				success: function(data, textStatus, jqXHR)
 				{
 					console.log(data);
-                      window.location.href = 'relax2.html';				},
+ 		                window.location.href = '11.html';				},
 				always: function(data,textStatus,jqXHR){
 				
 				}	
