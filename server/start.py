@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Darien Miranda. Anxiety induction server. <a href='static/settings.html'>Settings </a><a href='static/index.html'>Start Test</a>"
+    return "Darien Miranda. Anxiety induction server. <a href='static/settings.html'>Settings </a><a href='static/0.html'>Start Test</a>"
 
 
 @app.route("/data" , methods=['GET','POST'] )
